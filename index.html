@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vine Monkey</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap">
+<style>
+  :root {
+    --leaf: #1f5f3f;
+    --leaf-deep: #123f2a;
+    --banana: #f5c842;
+    --fur: #7a4a2b;
+    --fur-dark: #5b3620;
+    --face: #e8b98a;
+    --cream: #fff6e5;
+    --ink: #2b1a12;
+    --blush: #e8807a;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: radial-gradient(120% 90% at 50% 20%, var(--leaf) 0%, var(--leaf-deep) 100%);
+    color: var(--cream);
+    font-family: "Fredoka", "Nunito", ui-rounded, system-ui, sans-serif;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    padding-block: env(safe-area-inset-top, 0px) calc(24px + env(safe-area-inset-bottom, 0px));
+    padding-inline: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .scene {
+    width: min(100%, 420px);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  }
+  svg { width: 100%; height: 100%; max-height: 82vh; display: block; }
+  .caption {
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+    text-align: center;
+  }
+  .monkey {
+    transform-origin: 200px 112px;
+    animation: swing 2.8s ease-in-out infinite alternate;
+  }
+  .vine { transform-origin: 200px 0px; animation: sway 2.8s ease-in-out infinite alternate; }
+  .eyes { transform-origin: 200px 206px; animation: blink 4.6s infinite; }
+  .banana-arm { transform-origin: 232px 292px; }
+  .scene.waving .banana-arm { animation: wave 0.55s ease-in-out 3; }
+  @keyframes swing { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+  @keyframes sway  { from { transform: rotate(-1.5deg); } to { transform: rotate(1.5deg); } }
+  @keyframes blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.08); }
+  }
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-55deg); }
+  }
+  .heart {
+    position: absolute;
+    font-size: 26px;
+    pointer-events: none;
+    animation: float 1.6s ease-out forwards;
+  }
+  @keyframes float {
+    from { transform: translate(-50%, 0) scale(0.6); opacity: 0; }
+    20%  { opacity: 1; }
+    to   { transform: translate(-50%, -220px) scale(1.2) rotate(var(--tilt)); opacity: 0; }
+  }
+  .bubble {
+    position: absolute;
+    left: 50%;
+    top: 34%;
+    transform: translate(-50%, -50%) scale(0.6);
+    background: var(--cream);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 6vw, 1.7rem);
+    line-height: 1.15;
+    text-align: center;
+    padding: 14px 22px;
+    border-radius: 26px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    max-width: min(80vw, 320px);
+    text-wrap: balance;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s;
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 26px;
+    height: 26px;
+    background: var(--cream);
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 4px;
+    z-index: -1;
+  }
+  .scene.waving .bubble {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .monkey, .vine, .eyes, .scene.waving .banana-arm { animation: none; }
+    .heart { animation-duration: 0.9s; }
+    .bubble { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene" id="scene" role="img" aria-label="A cartoon monkey swinging from a vine, holding a banana">
+  <svg viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g class="vine">
+      <path d="M200 0 C196 30 206 60 200 112" fill="none" stroke="#3b8a4f" stroke-width="7" stroke-linecap="round"/>
+      <path d="M201 40 C215 28 240 30 246 46 C232 54 210 52 201 40 Z" fill="#4ea15f"/>
+      <path d="M200 76 C186 66 164 70 158 86 C172 94 192 90 200 76 Z" fill="#4ea15f"/>
+    </g>
+
+    <g class="monkey">
+      <path d="M252 356 C325 335 345 410 292 452 C270 470 262 445 275 438" fill="none" stroke="var(--fur)" stroke-width="13" stroke-linecap="round"/>
+
+      <path d="M178 380 L164 438" stroke="var(--fur)" stroke-width="22" stroke-linecap="round"/>
+      <path d="M222 380 L238 438" stroke="var(--fur)" stroke-width="22" stroke-linecap="round"/>
+      <ellipse cx="160" cy="446" rx="18" ry="12" fill="var(--face)"/>
+      <ellipse cx="243" cy="446" rx="18" ry="12" fill="var(--face)"/>
+
+      <path d="M170 262 C170 210 190 160 200 112" fill="none" stroke="var(--fur)" stroke-width="22" stroke-linecap="round"/>
+      <circle cx="200" cy="112" r="15" fill="var(--face)"/>
+
+      <ellipse cx="200" cy="322" rx="64" ry="74" fill="var(--fur)"/>
+      <ellipse cx="200" cy="336" rx="42" ry="50" fill="var(--face)"/>
+
+      <g class="banana-arm">
+        <path d="M232 292 C262 320 270 350 262 382" fill="none" stroke="var(--fur)" stroke-width="22" stroke-linecap="round"/>
+        <circle cx="262" cy="384" r="15" fill="var(--face)"/>
+        <path d="M250 372 C232 392 250 430 292 428 C300 428 300 418 292 418 C262 418 256 392 262 380 Z" fill="var(--banana)"/>
+        <path d="M262 380 C258 396 268 416 292 420" fill="none" stroke="#c99a1e" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="292" cy="424" r="3.5" fill="#6b4a12"/>
+      </g>
+
+      <circle cx="136" cy="214" r="24" fill="var(--fur)"/>
+      <circle cx="264" cy="214" r="24" fill="var(--fur)"/>
+      <circle cx="138" cy="214" r="13" fill="var(--face)"/>
+      <circle cx="262" cy="214" r="13" fill="var(--face)"/>
+
+      <circle cx="200" cy="214" r="64" fill="var(--fur)"/>
+      <path d="M186 152 C190 138 202 134 208 146 C214 134 226 140 224 154" fill="none" stroke="var(--fur-dark)" stroke-width="7" stroke-linecap="round"/>
+
+      <circle cx="178" cy="206" r="26" fill="var(--face)"/>
+      <circle cx="222" cy="206" r="26" fill="var(--face)"/>
+      <ellipse cx="200" cy="242" rx="44" ry="30" fill="var(--face)"/>
+
+      <g class="eyes">
+        <circle cx="182" cy="206" r="11" fill="#fff"/>
+        <circle cx="218" cy="206" r="11" fill="#fff"/>
+        <circle cx="184" cy="207" r="6" fill="var(--ink)"/>
+        <circle cx="220" cy="207" r="6" fill="var(--ink)"/>
+        <circle cx="186.5" cy="204" r="2.2" fill="#fff"/>
+        <circle cx="222.5" cy="204" r="2.2" fill="#fff"/>
+      </g>
+
+      <circle cx="160" cy="242" r="8" fill="var(--blush)" opacity="0.55"/>
+      <circle cx="240" cy="242" r="8" fill="var(--blush)" opacity="0.55"/>
+      <ellipse cx="193" cy="238" rx="3.2" ry="2.2" fill="var(--ink)"/>
+      <ellipse cx="207" cy="238" rx="3.2" ry="2.2" fill="var(--ink)"/>
+      <path d="M182 252 Q200 270 218 252" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </svg>
+  <div class="bubble" id="bubble" aria-live="polite">I love you! 🍌</div>
+</div>
+<p class="caption">tap the monkey</p>
+
+<script>
+  const scene = document.getElementById('scene');
+  const bubble = document.getElementById('bubble');
+  const HEARTS = ['🍌', '💛', '🐵', '💛', '🍌'];
+  const SAYINGS = [
+    'I love you! 🍌',
+    'I love you so much 💛',
+    'You’re my favorite 🐵',
+    'Love you to the treetops!',
+    'I love you! 🍌'
+  ];
+  let taps = 0;
+  let hideTimer = null;
+  scene.addEventListener('pointerdown', (e) => {
+    taps++;
+    bubble.textContent = taps === 5
+      ? 'alisha go fuck yourself 🐵'
+      : SAYINGS[(taps - 1) % SAYINGS.length];
+    scene.classList.remove('waving');
+    void scene.offsetWidth;
+    scene.classList.add('waving');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => scene.classList.remove('waving'), 2400);
+    const rect = scene.getBoundingClientRect();
+    for (let i = 0; i < 5; i++) {
+      const h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = HEARTS[i];
+      h.style.left = (e.clientX - rect.left + (Math.random() - 0.5) * 90) + 'px';
+      h.style.top = (e.clientY - rect.top - 10) + 'px';
+      h.style.setProperty('--tilt', ((Math.random() - 0.5) * 50) + 'deg');
+      h.style.animationDelay = (i * 0.08) + 's';
+      scene.appendChild(h);
+      h.addEventListener('animationend', () => h.remove());
+    }
+  });
+</script>
+</body>
+</html>
